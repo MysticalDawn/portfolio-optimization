@@ -1,0 +1,9 @@
+# Cached data
+misc/data/cache/
+misc/cache
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
