@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "portfolio-optimization"
+version = "1.0.0"
+description = "A flexible framework for portfolio optimization"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "yfinance>=0.2.36",
+    "pandas>=2.0.0",
+    "numpy>=1.24.0",
+    "scipy>=1.10.0",
+]
+
+[project.scripts]
+portfolio-optimization = "portfolio_optimization.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["portfolio_optimization*"]

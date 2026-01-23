@@ -9,6 +9,7 @@ def minimize_variance_portfolio(
     target_return: float,
     covariance_matrix: np.ndarray,
     allow_short: bool = False,
+    with_return_constraint: bool = True,
 ) -> np.ndarray:
     """
     Find the minimum variance portfolio for a given target return.
@@ -31,12 +32,15 @@ def minimize_variance_portfolio(
         """Minimize portfolio variance."""
         return float(weights.T @ covariance_matrix @ weights)
 
-    constraints = [
-        # Weights must sum to 1
-        {"type": "eq", "fun": lambda w: np.sum(w) - 1},
-        # Portfolio return must equal target
-        {"type": "eq", "fun": lambda w: np.sum(w * expected_returns) - target_return},
-    ]
+    constraints = []
+    if with_return_constraint:
+        constraints.append(
+            {
+                "type": "eq",
+                "fun": lambda w: np.sum(w * expected_returns) - target_return,
+            }
+        )
+    constraints.append({"type": "eq", "fun": lambda w: np.sum(w) - 1})
 
     # Set bounds based on short selling allowance
     if allow_short:

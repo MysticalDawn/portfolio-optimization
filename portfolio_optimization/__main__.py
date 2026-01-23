@@ -78,23 +78,27 @@ def main() -> None:
     period = get_user_input("Historical data period (e.g., 5y, 10y)", "10y")
 
     # Algorithm-specific parameters
-    portfolios = get_int_input("Number of portfolios on frontier", 10)
+    optimizer = algorithm_class(period=period)
 
     if algorithm_name == "monte_carlo_resampling":
+        portfolios = get_int_input("Number of portfolios on frontier", 10)
         shrinkage = get_float_input("Shrinkage intensity (0.0 - 1.0)", 0.7)
         simulations = get_int_input("Number of simulations", 500)
 
         print("\n")
-        optimizer = algorithm_class(period=period)
         optimizer.optimize(
             shrinkage_intensity=shrinkage,
             num_simulations=simulations,
             num_portfolios=portfolios,
         )
-    else:
-        # Mean-variance and other simple algorithms
+    elif algorithm_name == "minimum_variance":
+        # Minimum variance only returns a single portfolio
         print("\n")
-        optimizer = algorithm_class(period=period)
+        optimizer.optimize()
+    else:
+        # Mean-variance and other frontier algorithms
+        portfolios = get_int_input("Number of portfolios on frontier", 10)
+        print("\n")
         optimizer.optimize(num_portfolios=portfolios)
 
 

@@ -21,7 +21,13 @@ def fetch_ticker_data(
     """
     Fetch historical adjusted close prices for a given ticker.
 
-    Uses local cache to avoid repeated API calls.
+    Uses local cache to avoid repeated API calls. Cache is organized by period:
+        cache/
+          10y/
+            NVDA_1d.csv
+            INTC_1d.csv
+          5y/
+            NVDA_1d.csv
 
     Args:
         ticker: Stock ticker symbol
@@ -33,8 +39,10 @@ def fetch_ticker_data(
     Returns:
         DataFrame with historical price data
     """
-    CACHE_DIR.mkdir(parents=True, exist_ok=True)
-    cache_file = CACHE_DIR / f"{ticker}_{period}_{interval}.csv"
+    # Create period subdirectory: cache/10y/, cache/5y/, etc.
+    period_cache_dir = CACHE_DIR / period
+    period_cache_dir.mkdir(parents=True, exist_ok=True)
+    cache_file = period_cache_dir / f"{ticker}_{interval}.csv"
 
     # Check if cached data exists and is fresh enough
     if cache_file.exists():

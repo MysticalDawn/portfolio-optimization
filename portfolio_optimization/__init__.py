@@ -19,6 +19,7 @@ __version__ = "1.0.0"
 from portfolio_optimization.algorithms import (
     BaseOptimizer,
     MeanVariance,
+    MinimumVariance,
     MonteCarloResampling,
     get_algorithm,
     list_algorithms,
@@ -27,6 +28,7 @@ from portfolio_optimization.algorithms import (
 __all__ = [
     "BaseOptimizer",
     "MeanVariance",
+    "MinimumVariance",
     "MonteCarloResampling",
     "get_algorithm",
     "list_algorithms",

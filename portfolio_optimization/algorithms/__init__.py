@@ -12,11 +12,13 @@ Available algorithms:
 from portfolio_optimization.algorithms.base import BaseOptimizer
 from portfolio_optimization.algorithms.mean_variance import MeanVariance
 from portfolio_optimization.algorithms.monte_carlo_resampling import MonteCarloResampling
+from portfolio_optimization.algorithms.minimum_variance import MinimumVariance
 
 # Registry of available algorithms
 ALGORITHMS = {
     "mean_variance": MeanVariance,
     "monte_carlo_resampling": MonteCarloResampling,
+    "minimum_variance": MinimumVariance,
 }
 
 
@@ -47,6 +49,7 @@ def list_algorithms() -> list[str]:
 __all__ = [
     "BaseOptimizer",
     "MeanVariance",
+    "MinimumVariance",
     "MonteCarloResampling",
     "ALGORITHMS",
     "get_algorithm",

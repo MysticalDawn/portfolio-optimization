@@ -6,12 +6,8 @@ from dataclasses import dataclass
 import numpy as np
 import pandas as pd
 
-from portfolio_optimization.config import load_assets
-from portfolio_optimization.data import (
-    fetch_ticker_data,
-    calculate_monthly_returns,
-    calculate_yearly_returns,
-)
+from config import load_assets
+from data import fetch_ticker_data, calculate_monthly_returns, calculate_yearly_returns
 
 
 @dataclass
@@ -56,12 +52,16 @@ class BaseOptimizer(ABC):
     def load_data(self) -> None:
         """Load and prepare market data for optimization."""
         self.tickers = load_assets()
-        self.data = [fetch_ticker_data(ticker, period=self.period) for ticker in self.tickers]
+        self.data = [
+            fetch_ticker_data(ticker, period=self.period) for ticker in self.tickers
+        ]
         self.monthly_returns = [calculate_monthly_returns(d) for d in self.data]
         self.yearly_returns = [calculate_yearly_returns(d) for d in self.data]
 
         # Compute covariance matrix
-        yearly_returns_array = np.array([df.values.flatten() for df in self.yearly_returns])
+        yearly_returns_array = np.array(
+            [df.values.flatten() for df in self.yearly_returns]
+        )
         self.covariance_matrix = np.cov(yearly_returns_array)
         self._data_loaded = True
 
